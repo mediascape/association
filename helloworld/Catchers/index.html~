@@ -8,6 +8,7 @@
 
 		<!-- Communication Socket -->
 		<script src="http://10.0.20.10:7000/socket.io/socket.io.js"></script>
+		<!-- Mediascape Library via require.js -->
 		<script data-main="js/mediascape/mediascape" src="js/lib/require.js"></script>
 		<script src="js/jquery-2.1.3.min.js"></script>
 
