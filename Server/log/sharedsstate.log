@@ -1,0 +1,28 @@
+[2015-09-07 14:46:05.478] [INFO] console - saveRequest
+[2015-09-07 14:46:05.479] [INFO] console - { __v: 0,
+  id: 5,
+  timestamp: 1441629966000,
+  url: 'http://10.0.20.10:7000/Triggers/?http://10.0.20.10:7000/acc868cd8b1254453e92',
+  miniUrl: 'http://bit.ly/1NcWSeo',
+  locatLong: -1.9783761000000002,
+  locatLat: 43.283464099999996,
+  place: 'Goiaztxiki Bidea, 102, 20009 Donostia, Gipuzkoa, Spain',
+  _id: 55ed870d418838035244a179 }
+[2015-09-07 14:46:05.482] [INFO] console - Url
+[2015-09-07 14:46:15.488] [INFO] console - Sartu da
+[2015-09-07 14:46:15.489] [INFO] console - 5
+[2015-09-07 14:46:15.491] [INFO] console - []
+[2015-09-07 14:46:15.492] [INFO] console - FindAssociatedById:
+[2015-09-07 14:46:15.493] [INFO] console - []
+[2015-09-07 14:46:15.493] [INFO] console - 
+[2015-09-07 16:43:47.668] [DEBUG] SocketServer - acc868cd8b1254453e92 sending status { clients: 0,
+  presence: [ { key: '713107791', value: 'disconnected' } ] }
+[2015-09-07 16:43:48.164] [DEBUG] SocketServer - somebody want to join acc868cd8b1254453e92 with { token: '\'undefined\'', agentID: '501824697' }
+[2015-09-07 16:43:48.165] [DEBUG] SocketServer - acc868cd8b1254453e92 sending Private joined { token: '\'undefined\'', agentID: '501824697' }
+[2015-09-07 16:43:48.167] [DEBUG] SocketServer - acc868cd8b1254453e92 sending Private status { clients: 1,
+  presence: [ { key: '501824697', value: 'online' } ] }
+[2015-09-07 16:43:48.169] [DEBUG] SocketServer - acc868cd8b1254453e92 sending status { clients: 1,
+  presence: [ { key: '501824697', value: 'online' } ] }
+[2015-09-07 16:43:48.187] [DEBUG] SocketServer - acc868cd8b1254453e92 sending Private initState []
+[2015-09-07 16:43:48.197] [DEBUG] SocketServer - acc868cd8b1254453e92 sending status { clients: 1,
+  presence: [ { key: '501824697', value: 'online' } ] }

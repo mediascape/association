@@ -1,0 +1,65 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<link rel="shortcut icon" href="img/Mediascape.png">
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+		<meta content="utf-8" http-equiv="encoding">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Communication Socket -->
+		<script src="http://10.0.20.10:7000/socket.io/socket.io.js"></script>
+		<!-- Mediascape Library via require.js -->
+		<script data-main="js/mediascape/mediascape" src="js/lib/require.js"></script>
+		<script src="js/jquery-2.1.3.min.js"></script>
+
+		<!---------------------------------------- Bootstrap -------------------------------------------------------->
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<!----------------------------------------------------------------------------------------------------------->
+
+		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<script src="js/index.js"></script>
+		<title>Triggers</title>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<h1>Association Demos:</h1>
+			<br>
+			<div id="javascript">
+				<div id="qr">
+					<div class="row">
+						<div class="col-md-2"><button id="nwsCreate" class="btn btn-success" type="button" value="Click to generate Named Web Socket Message">Generate NWS</button></div>
+						<div class="col-md-2"><button id="qrCreate" class="btn btn-success" type="button" value="Click to generate QR code">Generate QR code</button></div>
+						<div class="col-md-2"><button id="miniUrlCreate" class="btn btn-success" type="button" value="Click to generate Mini URL">Generate Mini URL</button></div>
+						<div class="col-md-2"><button id="bothCreate" class="btn btn-success" type="button" value="Click to generate QR code from a Mini URL">Generate Mini QR code</button></div>
+						<div class="col-md-2"><button id="fskCreate" class="btn btn-success" type="button" value="Click to generate a FSK Audio">Generate a FSK Audio</button></div>
+						<div class="col-md-2"><button id="shakeGoStart" class="btn btn-success" type="button" value="Click to start with Shake&Go">Start Shake&Go</button></div>
+					</div>
+				</div>
+			</div>
+			</br>
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">Association Codes</h4>
+						</div>
+						<div class="modal-body">
+							<div id="associationCodes"></div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

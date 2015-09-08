@@ -1,0 +1,95 @@
+body{
+	width:100%;
+	height:100%;
+}
+
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+	#javascript button{
+		width:200px;
+	}
+}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+	#javascript button{
+		width:100%;
+	}
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+	#javascript button{
+		width:100%;
+	}
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+	#javascript button{
+		width:100%;
+	}
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+
+}
+
+#container{
+	display:block;
+}
+
+#javascript{
+	display:block;
+}
+
+#qrCatcher{
+	display:none;
+}
+
+#audioCatcher{
+	display:none;
+}
+
+p{
+	text-align:center;
+}
+
+img,#camera{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.scanner-laser{
+	display:none;
+	position: absolute;
+	margin: 40px;
+	height: 30px;
+	width: 30px;
+}
+.laser-leftTop{
+	top: 0;
+	left: 0;
+	border-top: solid red 5px;
+	border-left: solid red 5px;
+}
+.laser-leftBottom{
+	bottom: 0;
+	left: 0;
+	border-bottom: solid red 5px;
+	border-left: solid red 5px; 
+}
+.laser-rightTop{
+	top: 0;
+	right: 0;
+	border-top: solid red 5px;
+	border-right: solid red 5px;
+}
+.laser-rightBottom{
+	bottom: 0;
+	right: 0;
+	border-bottom: solid red 5px;
+	border-right: solid red 5px;
+}
