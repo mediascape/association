@@ -59,7 +59,7 @@ document.addEventListener('mediascape-ready',function(e){
 		mediascape.discovery.isPresent('namedwebsockets').then(function(data){
 			if(data.presence){
 				mediascape.association.doAssociation("nws","mediascape").then(function(data){
-					if(data.response.indexOf('http://')!=-1||data.response.indexOf('https://')!=-1) window.location=data.response;
+					if(data.indexOf('http://')!=-1||data.indexOf('https://')!=-1) window.location=data.response;
 				});
 				document.getElementById("qrCatcher").style.display='block';
 				document.getElementById("audioCatcher").style.display='';
@@ -75,7 +75,7 @@ document.addEventListener('mediascape-ready',function(e){
 					document.getElementById("audioCatcher").style.display="block";
 				});
 				mediascape.association.doAssociation("shake","qrCatcher","audioCatcherInfo").then(function(data){
-					if(data.response.indexOf('http://')!=-1||data.response.indexOf('https://')!=-1) window.location=data.response;
+					if(data.indexOf('http://')!=-1||data.indexOf('https://')!=-1) window.location=data.response;
 				});
 			}else{
 				document.getElementById("qrCatcher").style.display='block';
