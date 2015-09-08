@@ -26,6 +26,7 @@
             namedwebsockets: 'lib/namedwebsockets',
             qrcode: 'lib/qrcode.min',
             webcodecam:'lib/WebCodeCam.min',
+            qrcodelib:'lib/qrcodelib',
             socketio: '/socket.io/socket.io',
             shake: 'lib/shake'
         }

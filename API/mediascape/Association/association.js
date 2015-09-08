@@ -1,4 +1,4 @@
-define( ["jquery","qrcode","webcodecam"], function($) {
+define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 	var Association = function() {
 		var freq;
 		var interval;

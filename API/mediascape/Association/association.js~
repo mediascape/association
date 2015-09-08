@@ -119,8 +119,7 @@ define( ["jquery","qrcode","webcodecam"], function($) {
 
 						if(short&&url.indexOf("bit.ly")==-1){
 							shortURL(url).then(function(data){
-								if(data.response.indexOf("http")==-1) resolve(JSON.parse('{"response":"'+data.response+'"}'));
-								else return visualizeQr(placeId,data.response,width,height,resolve);
+								return visualizeQr(placeId,data.response,width,height,resolve);
 							});
 						}else{
 							return visualizeQr(placeId,url,width,height,resolve);
@@ -128,6 +127,7 @@ define( ["jquery","qrcode","webcodecam"], function($) {
 				});
 				return p1;
 			}
+
 
 			function visualizeQr(placeId,url,width,height,resolve){
 				var shortedUrl = url;
@@ -177,7 +177,6 @@ define( ["jquery","qrcode","webcodecam"], function($) {
 						var audioCtx;
 						if(args[2]&&args[1].indexOf("bit.ly")==-1){
 							shortURL(args[1]).then(function(data){
-								if(data.response.indexOf("http")==-1) data.response=args[1];
 								acoustic(data.response);
 							});
 						}else acoustic(args[1]);
@@ -460,7 +459,6 @@ define( ["jquery","qrcode","webcodecam"], function($) {
 								time=Date.parse(new Date(json.dateString));
 								shortURL(url).then(function(miniUrl){
 									if(miniUrl.response!=undefined){
-										if(miniUrl.response.indexOf("http")==-1) miniUrl.response=url;
 										mediascape.discovery.isPresent("geolocation").then(function(dataPresence){
 											if(dataPresence.presence){
 												mediascape.discovery.getExtra("geolocation").then(function(dataExtra){
