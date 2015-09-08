@@ -21,7 +21,7 @@ config.mongoose = {
 
 // config for the Core
 config.db = {
-    file: './MongoDB.js' // MongoDB
+    file: './dbConnectors/MongoDB.js' // MongoDB
 };
 
 // TableName used for mapping
