@@ -877,7 +877,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 														$.post("http://"+serverUrl+"/api/associate",{timestamp: time,location:{latitude:dataExtra.extra[0].latitude,longitude:dataExtra.extra[1].longitude},place: place.results[0].formatted_address}, function(data1){
 															if(data1)
 															{
-																if(data1.response.indexOf('http://')!=-1||data1.response.indexOf('https://')!=-1) resolve(JSON.parse('{"response":"'+data+'"}'));//window.location=data1.response;
+																if(data1.response.indexOf('http://')!=-1||data1.response.indexOf('https://')!=-1) resolve(JSON.parse('{"response":"'+data1.response+'"}'));//window.location=data1.response;
 																else {
 																	createMessageEvent("shakeChange", true, "errorMessage", 3);
 																	setTimeout(function(){
