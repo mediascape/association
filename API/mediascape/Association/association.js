@@ -119,6 +119,7 @@ define( ["jquery","qrcode","webcodecam"], function($) {
 
 						if(short&&url.indexOf("bit.ly")==-1){
 							shortURL(url).then(function(data){
+								if(data.response.indexOf("http")==-1) data.response=url;
 								return visualizeQr(placeId,data.response,width,height,resolve);
 							});
 						}else{
@@ -177,6 +178,7 @@ define( ["jquery","qrcode","webcodecam"], function($) {
 						var audioCtx;
 						if(args[2]&&args[1].indexOf("bit.ly")==-1){
 							shortURL(args[1]).then(function(data){
+								if(data.response.indexOf("http")==-1) data.response=args[1];
 								acoustic(data.response);
 							});
 						}else acoustic(args[1]);
@@ -459,6 +461,7 @@ define( ["jquery","qrcode","webcodecam"], function($) {
 								time=Date.parse(new Date(json.dateString));
 								shortURL(url).then(function(miniUrl){
 									if(miniUrl.response!=undefined){
+										if(miniUrl.response.indexOf("http")==-1) miniUrl.response=url;
 										mediascape.discovery.isPresent("geolocation").then(function(dataPresence){
 											if(dataPresence.presence){
 												mediascape.discovery.getExtra("geolocation").then(function(dataExtra){

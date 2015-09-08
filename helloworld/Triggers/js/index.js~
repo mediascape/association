@@ -9,7 +9,8 @@ document.addEventListener('mediascape-ready',function(e){
 	var url;
 	var token;
 	var sharedStates={};
-	var serverUrl=window.location.host;
+	var serverUrl="localhost:7000";
+	console.log(window.location);
 	var shakeGo=false;
 	var applicationID = "mediascape";
 	var map = mediascape.mappingService();
