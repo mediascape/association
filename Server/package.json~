@@ -4,7 +4,7 @@
     "version": "0.6.1",
     "private": true,
     "dependencies": {
-        "mongoose": "*",
+        "mongoose": "^3.8.12",
         "restify": "^2.8.1",
         "express": "3.2.6",
         "socket.io": "^1.0.4",
