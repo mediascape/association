@@ -40,30 +40,6 @@ function ExpressServer() {
 	app.use(express.static(__dirname + config.express.filePath));
 
     server.listen(config.express.port, function () {
-	var os = require('os');
-	var ifaces = os.networkInterfaces();
-
-	Object.keys(ifaces).forEach(function (ifname) {
-		var alias = 0;
-
-		ifaces[ifname].forEach(function (iface) {
-			if ('IPv4' !== iface.family || iface.internal !== false) {
-				// skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
-				return;
-			}
-
-			if (alias >= 1) {
-				// this single interface has multiple ipv4 addresses
-				console.log(ifname + ':' + alias, iface.address);
-			} else {
-				// this interface has only one ipv4 adress
-				console.log(ifname, iface.address);
-				logger.debug('Webserver listening at URL http://%s:%d', iface.address,config.express.port);
-				logger.debug('Triggers at URL http://%s:%d/Triggers', iface.address,config.express.port);
-				logger.debug('Catchers at URL http://%s:%d/Catchers', iface.address,config.express.port);
-			}
-		});
-	});
         logger.debug('Webserver listening at port %d', config.express.port);
     });
 
