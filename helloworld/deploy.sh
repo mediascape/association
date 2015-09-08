@@ -85,8 +85,9 @@ cp -R $Folder/discovery-self/API/mediascape/Discovery $InstallFolder/public/Catc
 cp -R $Folder/association/API/mediascape/Association $InstallFolder/public/Triggers/js/mediascape/
 cp -R $Folder/association/API/mediascape/Association $InstallFolder/public/Catchers/js/mediascape/
 cp -R $Folder/discovery-multi/API/mediascape/* $InstallFolder/public/Triggers/js/mediascape/
-cp -R $Folder/association/API/mediascape/lib/* $InstallFolder/www/Triggers/js/lib/
-cp -R $Folder/association/API/mediascape/lib/* $InstallFolder/www/Catchers/js/lib/
+cp -R $Folder/discovery-multi/API/lib/shake.js $InstallFolder/public/Triggers/js/lib/
+cp -R $Folder/association/API/mediascape/lib/* $InstallFolder/public/Triggers/js/lib/
+cp -R $Folder/association/API/mediascape/lib $InstallFolder/public/Catchers/js/
 
 if [ -d temp/node_modules/ ]; then
 	mkdir $InstallFolder/node_modules/
