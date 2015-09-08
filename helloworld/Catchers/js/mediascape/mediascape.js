@@ -22,10 +22,10 @@
 			// is using jQuery 2.1.3 located at
 			// js/lib/jquery-2.1.3.js, relative to
 			// the HTML page.
-			jquery: 'mediascape/lib/jquery-2.1.3.min',
-			namedwebsockets: 'mediascape/lib/namedwebsockets',
-			qrcode: 'mediascape/lib/qrcode.min',
-			webcodecam:'mediascape/lib/WebCodeCam.min',
+			jquery: 'lib/jquery-2.1.3.min',
+			namedwebsockets: 'lib/namedwebsockets',
+			qrcode: 'lib/qrcode.min',
+			webcodecam:'lib/WebCodeCam.min',
 			socketio: '/socket.io/socket.io'
 		}
 	});

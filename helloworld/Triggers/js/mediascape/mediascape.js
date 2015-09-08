@@ -22,18 +22,18 @@
             // is using jQuery 1.8.2 located at
             // js/jquery-1.8.2.js, relative to
             // the HTML page.
-            jquery: 'mediascape/lib/jquery-2.1.3.min',
-            namedwebsockets: 'mediascape/lib/namedwebsockets',
-            qrcode: 'mediascape/lib/qrcode.min',
-            webcodecam:'mediascape/lib/WebCodeCam.min',
-            socketio: '/socket.io/socket.io',
-            shake: 'mediascape/lib/shake'
+            jquery: 'lib/jquery-2.1.3.min',
+            namedwebsockets: 'lib/namedwebsockets',
+            qrcode: 'lib/qrcode.min',
+            webcodecam:'lib/WebCodeCam.min',
+            socketio: '/socket.io/socket.io'/*,
+            shake: 'lib/shake'*/
         }
     });
 
     // Start the main app logic.
     define("mediascape", ["mediascape/Agentcontext/agentcontext",
-                          "mediascape/Discovery/association",
+                          "mediascape/Association/association",
                           "mediascape/Discovery/discovery",
                           "mediascape/DiscoveryAgentContext/discoveryagentcontext",
                           "mediascape/Sharedstate/sharedstate",
