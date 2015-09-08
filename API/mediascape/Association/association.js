@@ -16,7 +16,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 			//Bitly Legacy API Key: https://bitly.com/a/settings/advanced
 			var bitlyUser="ionalberdi";
 			var bitlyPass="R_978251cf3ed04317a147fde5a237b13c";
-			var serverUrl="localhost:7000";
+			var serverUrl=window.location.host;
 			var args = Array.prototype.slice.call(arguments);
 
 			if(args[0].toLowerCase()==="qr"){
