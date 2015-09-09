@@ -7,6 +7,16 @@
  */
 var config = {};
 
+// configuration for authentication
+config.auth = {
+    useAuthentication: true, // Authentication Enabled true/false
+    GOOGLE_CLIENT_ID: "--- XYZ ---", // obtain from https://console.developers.google.com/project
+    GOOGLE_CLIENT_SECRET: "--- XYZ ---", // obtain from https://console.developers.google.com/project
+    GOOGLE_CALLBACK_URL: "http:// --- XYZ ---/auth/google/callback", // Your Domain + /auth/google/callback
+    session_secret: 'ForLittleKnowsMyRoyalDameThatRumpelstiltskinIsMyName!', // secret for the session cookie
+    session_name: 'mappingAuth' // name for the session cookie
+};
+
 // config for mongodb / mongoose
 config.mongoose = {
     uri: 'mongodb://localhost/',

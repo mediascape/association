@@ -9,7 +9,7 @@ var config = {};
 
 // configuration for authentication
 config.auth = {
-    useAuthentication: true, // Authentication Enabled true/false
+    useAuthentication: false, // Authentication Enabled true/false
     GOOGLE_CLIENT_ID: "--- XYZ ---", // obtain from https://console.developers.google.com/project
     GOOGLE_CLIENT_SECRET: "--- XYZ ---", // obtain from https://console.developers.google.com/project
     GOOGLE_CALLBACK_URL: "http:// --- XYZ ---/auth/google/callback", // Your Domain + /auth/google/callback
