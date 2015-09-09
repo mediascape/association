@@ -20,8 +20,6 @@ var rl = readline.createInterface({
 
 console.log('Starting Setup...');
 
-config.auth.useAuthentication = false;
-
 var q2 = function () {
     rl.question("URI to your mongodb [" + config.mongoose.uri + "]:", function (input) {
         if (input.length == 0) {
