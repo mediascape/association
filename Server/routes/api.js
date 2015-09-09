@@ -50,7 +50,6 @@ module.exports = function(app,mongoose) {
 	//POST - 
 	associatePost = function(req, res) {
 		console.log('associatePOST');
-		console.log(req.body);
 		var timestamp=req.body.timestamp;
 		var location=req.body.location;
 		var place=req.body.place;
@@ -74,8 +73,8 @@ module.exports = function(app,mongoose) {
 					if(url!=null){
 						console.log("Url");
 						setTimeout(function(){
-							console.log("Sartu da");
-							console.log(requestId);
+							/*console.log("Sartu da");
+							console.log(requestId);*/
 							Association.findAssociatedById(requestId,function(err, requests2){
 								console.log("FindAssociatedById:");
 								console.log(requests2);
@@ -87,11 +86,11 @@ module.exports = function(app,mongoose) {
 						},10000);
 					}else{
 						console.log("No Url");
-						console.log(requestId);
+						/*console.log(requestId);
 						console.log(timestamp);
 						console.log(location.longitude);
 						console.log(location.latitude);
-						console.log(place);
+						console.log(place);*/
 						Requests.findAssociableRequest(timestamp,location.longitude,location.latitude,place,function(err, requests2){
 							console.log("findAssociableRequest");
 							console.log(requests2);

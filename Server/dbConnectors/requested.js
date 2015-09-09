@@ -71,11 +71,15 @@ requestsSchema.statics.findAssociableRequest = function findAssociableRequest( r
 	var devices1;
 	var devices2;
 
+	console.log("");
+	console.log("                 Intervals                   ");
+	console.log("---------------------------------------------");
 	console.log("Timestamp:("+timestampMin+","+timestampMax+")");
 	console.log("Longitude:("+longMin+","+longMax+")");
 	console.log("Latitude:("+latMin+","+latMax+")");
+	console.log("");
 
-	this.find({ place:requestPlace, timestamp: {$gt : timestampMin, $lt : timestampMax} , url: { $ne: null} }, '-_id id', function (err, requests) {
+	this.find({ place:requestPlace, timestamp: {$gt : timestampMin, $lt : timestampMax} , url: { $ne: null} }, '-_id id url miniUrl', function (err, requests) {
 		if (err) return console.error(err);
 		else{
 			devices1=requests; //return cb(err,devices);
@@ -89,9 +93,9 @@ requestsSchema.statics.findAssociableRequest = function findAssociableRequest( r
 					if (err) return console.error(err);
 					else{
 						devices2=requests; //return cb(err,requests);
-			
-						var result=devices1.concat(devices2).unique(); 
-						console.log("Join: "+result);
+						var result=devices1.concat(devices2).unique();
+						console.log("Result: "+result);
+						console.log("");
 						cb(err,result);
 					};
 			});
@@ -128,7 +132,7 @@ Array.prototype.unique = function() {
 	var a = this.concat();
 	for(var i=0; i<a.length; ++i) {
 		for(var j=i+1; j<a.length; ++j) {
-			if(a[i] === a[j]) a.splice(j--, 1);
+			if(a[i].id === a[j].id) a.splice(j--, 1);
 		}
 	}
 	return a;
