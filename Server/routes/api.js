@@ -11,26 +11,69 @@ module.exports = function(app,mongoose) {
 		var location=req.query.location;
 		var place=req.query.place;
 
-		if(req.query.url){
-			var url=req.query.url;
-			var miniUrl=req.query.miniUrl;
-			console.log("timestamp = "+timestamp+", location = "+JSON.stringify(location)+", url = "+url+", miniUrl = "+miniUrl);
+		if(req.query.location){
+			if(req.query.url){
+				var url=req.query.url;
+				var miniUrl=req.query.miniUrl;
+				console.log("timestamp = "+timestamp+", location = "+JSON.stringify(location)+", url = "+url+", miniUrl = "+miniUrl);
 			
-		} else {
-			var url=null;
-			var miniUrl=null;
-			console.log("timestamp = "+timestamp+", location = "+JSON.stringify(location));
-		}
-		Requests.getLastRequestId(function(err, request){
-			if(request.id){
-				console.log(request.id);
-				var requestId=parseFloat(request.id)+1;
-				Requests.saveRequst(requestId,timestamp,url,miniUrl,location.longitude,location.latitude,place,function(err, request){
-					
-				});
-				
+			} else {
+				var url=null;
+				var miniUrl=null;
+				console.log("timestamp = "+timestamp+", location = "+JSON.stringify(location));
 			}
-		});
+			Requests.getLastRequestId(function(err, request){
+				if(request.id){
+					console.log(request.id);
+					var requestId=parseFloat(request.id)+1;
+					Requests.saveRequest(requestId,timestamp,url,miniUrl,location.longitude,location.latitude,place,function(err, requests){
+						console.log("saveRequest");
+						//console.log(requests);
+						if(url!=null){
+							console.log("Url");
+							setTimeout(function(){
+								/*console.log("Sartu da");
+								console.log(requestId);*/
+								Association.findAssociatedById(requestId,function(err, requests2){
+									console.log("FindAssociatedById:");
+									//console.log(requests2);
+									//console.log("");
+									if(requests2 && (requests2.length==1)){
+										response.status(200).send(JSON.parse('{"response":"'+requests2[0].url+'"}'));
+									}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
+								});
+							},10000);
+						}else{
+							console.log("No Url");
+							/*console.log(requestId);
+							console.log(timestamp);
+							console.log(location.longitude);
+							console.log(location.latitude);
+							console.log(place);*/
+							Requests.findAssociableRequest(timestamp,location.longitude,location.latitude,place,function(err, requests2){
+								console.log("findAssociableRequest");
+								console.log(requests2);
+								if(requests2.length==1){
+									Association.getLastAssociatedId(function(err, association){
+										console.log("getLastAssociatedId:");
+										console.log(association);
+										if(association.id || association.id==0){
+											var associationId=parseFloat(association.id)+1;
+											Association.saveAssociation(associationId, requests2[0].url, requests2[0].miniUrl, requests2[0].id, requestId, function(err, requests3){
+												console.log("saveAssociation:");
+												console.log(requests3);
+												console.log("");
+												response.status(200).send(JSON.parse('{"response":"'+requests3.url+'"}'));
+											});
+										}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
+									});
+								}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
+							});
+						}
+					});
+				}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
+			});
+		}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
 
 		setTimeout(function(){
 			res = addCoors(req, res);
@@ -54,66 +97,68 @@ module.exports = function(app,mongoose) {
 		var location=req.body.location;
 		var place=req.body.place;
 		var response = addCoors(req, res);
-		if(req.body.url){
-			var url=req.body.url;
-			var miniUrl=req.body.miniUrl;
-			console.log("timestamp = "+timestamp+", location = "+JSON.stringify(location)+", url = "+url+", miniUrl = "+miniUrl+", location.longitude = "+location.longitude+", location.latitude = "+location.latitude+", place = "+place);
+		if(req.body.location){
+			if(req.body.url){
+				var url=req.body.url;
+				var miniUrl=req.body.miniUrl;
+				console.log("timestamp = "+timestamp+", location = "+JSON.stringify(location)+", url = "+url+", miniUrl = "+miniUrl+", location.longitude = "+location.longitude+", location.latitude = "+location.latitude+", place = "+place);
 			
-		} else {
-			var url=null;
-			var miniUrl=null;
-			console.log("timestamp = "+timestamp+", location = "+JSON.stringify(location)+", location.longitude = "+location.longitude+", location.latitude = "+location.latitude+", place = "+place);
-		}
-		Requests.getLastRequestId(function(err, request){
-			if(request.id || request.id==0){
-				var requestId=parseFloat(request.id)+1;
-				Requests.saveRequest(requestId,timestamp,url,miniUrl,location.longitude,location.latitude,place,function(err, requests){
-					console.log("saveRequest");
-					console.log(requests);
-					if(url!=null){
-						console.log("Url");
-						setTimeout(function(){
-							/*console.log("Sartu da");
-							console.log(requestId);*/
-							Association.findAssociatedById(requestId,function(err, requests2){
-								console.log("FindAssociatedById:");
-								console.log(requests2);
-								console.log("");
-								if(requests2 && (requests2.length==1)){
-									response.status(200).send(JSON.parse('{"response":"'+requests2[0].url+'"}'));
-								}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
-							});
-						},10000);
-					}else{
-						console.log("No Url");
-						/*console.log(requestId);
-						console.log(timestamp);
-						console.log(location.longitude);
-						console.log(location.latitude);
-						console.log(place);*/
-						Requests.findAssociableRequest(timestamp,location.longitude,location.latitude,place,function(err, requests2){
-							console.log("findAssociableRequest");
-							console.log(requests2);
-							if(requests2.length==1){
-								Association.getLastAssociatedId(function(err, association){
-									console.log("getLastAssociatedId:");
-									console.log(association);
-									if(association.id || association.id==0){
-										var associationId=parseFloat(association.id)+1;
-										Association.saveAssociation(associationId, requests2[0].url, requests2[0].miniUrl, requests2[0].id, requestId, function(err, requests3){
-											console.log("saveAssociation:");
-											console.log(requests3);
-											console.log("");
-											response.status(200).send(JSON.parse('{"response":"'+requests3.url+'"}'));
-										});
+			} else {
+				var url=null;
+				var miniUrl=null;
+				console.log("timestamp = "+timestamp+", location = "+JSON.stringify(location)+", location.longitude = "+location.longitude+", location.latitude = "+location.latitude+", place = "+place);
+			}
+			Requests.getLastRequestId(function(err, request){
+				if(request.id || request.id==0){
+					var requestId=parseFloat(request.id)+1;
+					Requests.saveRequest(requestId,timestamp,url,miniUrl,location.longitude,location.latitude,place,function(err, requests){
+						console.log("saveRequest");
+						console.log(requests);
+						if(url!=null){
+							console.log("Url");
+							setTimeout(function(){
+								/*console.log("Sartu da");
+								console.log(requestId);*/
+								Association.findAssociatedById(requestId,function(err, requests2){
+									console.log("FindAssociatedById:");
+									console.log(requests2);
+									console.log("");
+									if(requests2 && (requests2.length==1)){
+										response.status(200).send(JSON.parse('{"response":"'+requests2[0].url+'"}'));
 									}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
 								});
-							}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
-						});
-					}
-				});
-			}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
-		});
+							},10000);
+						}else{
+							console.log("No Url");
+							/*console.log(requestId);
+							console.log(timestamp);
+							console.log(location.longitude);
+							console.log(location.latitude);
+							console.log(place);*/
+							Requests.findAssociableRequest(timestamp,location.longitude,location.latitude,place,function(err, requests2){
+								console.log("findAssociableRequest");
+								//console.log(requests2);
+								if(requests2.length==1){
+									Association.getLastAssociatedId(function(err, association){
+										console.log("getLastAssociatedId:");
+										//console.log(association);
+										if(association.id || association.id==0){
+											var associationId=parseFloat(association.id)+1;
+											Association.saveAssociation(associationId, requests2[0].url, requests2[0].miniUrl, requests2[0].id, requestId, function(err, requests3){
+												console.log("saveAssociation:");
+												//console.log(requests3);
+												//console.log("");
+												response.status(200).send(JSON.parse('{"response":"'+requests3.url+'"}'));
+											});
+										}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
+									});
+								}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
+							});
+						}
+					});
+				}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
+			});
+		}else response.status(200).send(JSON.parse('{"response":"There is no association."}'));
 	};
 
 	//POST - 
@@ -166,7 +211,6 @@ module.exports = function(app,mongoose) {
 
 	//GET - Return a TVShow with specified ID
 	findByData = function(req, res) {
-
 	};
 
 	//POST - Insert a new TVShow in the DB
