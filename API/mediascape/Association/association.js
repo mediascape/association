@@ -2,6 +2,8 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 	var Association = function() {
 		var freq;
 		var interval;
+		var timeout;
+		var req;
 		var tones = {};
 
 		/*****************************************************************************************
@@ -340,7 +342,6 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 						var value;
 						var interval;
 						var interval1;
-						var timeout;
 						var url;
 						if(args[3]){
 							value=null;
@@ -448,7 +449,6 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 					function(resolve,reject){
 						var deferred = $.Deferred();
 						var time;
-						var timeout;
 						var url=args[1];
 						$.ajax({
 							type: 'GET',
@@ -855,7 +855,6 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 		*
 		***********************************************************************************************/
 			function shakeAssociationCatcher(args){
-				console.log(args);
 				console.log('shakeAssociationCatcher');
 				var p1= new Promise(
 					function(resolve,reject){
@@ -874,13 +873,13 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 												createMessageEvent("shakeChange", true, "message", 1);
 												$.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+dataExtra.extra[0].latitude+","+dataExtra.extra[1].longitude+"&sensor=false", function(place){
 													if(place.status==="OK"){
-														$.post("http://"+serverUrl+"/api/associate",{timestamp: time,location:{latitude:dataExtra.extra[0].latitude,longitude:dataExtra.extra[1].longitude},place: place.results[0].formatted_address}, function(data1){
+														req = $.post("http://"+serverUrl+"/api/associate",{timestamp: time,location:{latitude:dataExtra.extra[0].latitude,longitude:dataExtra.extra[1].longitude},place: place.results[0].formatted_address}, function(data1){
 															if(data1)
 															{
 																if(data1.response.indexOf('http://')!=-1||data1.response.indexOf('https://')!=-1) resolve(JSON.parse('{"response":"'+data1.response+'"}'));//window.location=data1.response;
 																else {
 																	createMessageEvent("shakeChange", true, "errorMessage", 3);
-																	setTimeout(function(){
+																	timeout=setTimeout(function(){
 																		createMessageEvent("shakeChange", false);
 																		var args1 =["qr",args[1]];
 																		qrCodeAssociationCatcher(args1).then(function(data){
@@ -893,7 +892,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 																			if(data.response.indexOf('http://')!=-1||data.response.indexOf('https://')!=-1) resolve(JSON.parse('{"response":"'+data.response+'"}'));//window.location=data.response;
 																			else{
 																				createMessageEvent("shakeChange", true, "errorMessage", 3);
-																				setTimeout(function(){
+																				timeout=setTimeout(function(){
 																					createMessageEvent("shakeChange", false);
 																					//analyze();
 																				},5000);
@@ -905,13 +904,13 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 															}
 														});
 													}else{
-														$.post("http://"+serverUrl+"/api/associate",{timestamp: new Date().getTime(),location:{latitude:dataExtra.extra[0].latitude,longitude:dataExtra.extra[1].longitude}}, function(data1){
+														req = $.post("http://"+serverUrl+"/api/associate",{timestamp: new Date().getTime(),location:{latitude:dataExtra.extra[0].latitude,longitude:dataExtra.extra[1].longitude}}, function(data1){
 															if(data1)
 															{
 																if(data1.response.indexOf('http://')!=-1||data1.response.indexOf('https://')!=-1) resolve(JSON.parse('{"response":"'+data1.response+'"}'));//window.location=data1.response;
 																else {
 																	createMessageEvent("shakeChange", true, "errorMessage", 3);
-																	setTimeout(function(){
+																	timeout=setTimeout(function(){
 																		createMessageEvent("shakeChange", false);
 																		var args1 =["qr",args[1]];
 																		qrCodeAssociationCatcher(args1).then(function(data){
@@ -923,7 +922,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 																			if(data.response.indexOf('http://')!=-1||data.response.indexOf('https://')!=-1) resolve(JSON.parse('{"response":"'+data.response+'"}'));//window.location=data.response;
 																			else{
 																				createMessageEvent("shakeChange", true, "errorMessage", 3);
-																				setTimeout(function(){
+																				timeout=setTimeout(function(){
 																					createMessageEvent("shakeChange", false);
 																					//analyze();
 																				},5000);
@@ -1025,6 +1024,8 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 							clearInterval(interval);
 						}
 					}
+					clearTimeout(timeout);
+					if(req!=undefined) req.abort();
 			});
 			return p1;
 		};

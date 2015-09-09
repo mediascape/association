@@ -102,7 +102,7 @@ document.addEventListener('mediascape-ready',function(e){
 		if(document.getElementsByTagName('img').length!=0){
 			//mediascape.association.stopFSKModulator();
 			mediascape.association.stopAssociation('acoustic');
-		}
+		}else mediascape.association.stopAssociation('');
 	});
 
 	function errorMessage(message){

@@ -197,8 +197,8 @@ document.addEventListener('mediascape-ready',function(e){
 		if(document.getElementsByTagName('img').length!=0){
 			if(document.getElementsByTagName('img')[0].src.indexOf("icono_play.jpg")!=-1){
 				mediascape.association.stopAssociation('acoustic').then(function(data){console.log(data);});
-			}
-		}
+			}else mediascape.association.stopAssociation('');
+		}else mediascape.association.stopAssociation('');
 	});
 
 	document.addEventListener('ended',function(){
