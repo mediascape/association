@@ -4,6 +4,5 @@ This library is a compilation of different API's deffined for Mediascape project
 
 The APIs that already have been included:
 
-* Discovery API: This library build awareness about the device features and the available devices ready to be connected for each application instance. To achieve it, this *Discovery* library introspects the features of the device and detect the reachable devices through the possible network interfaces and communication protocols.
 * Association API: The Association module is responsible of establish the communication mechanisms and protocols to perform the dynamic pairing of resources for a specific session.
 
