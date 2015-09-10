@@ -1,4 +1,4 @@
-# WP3 Association API #
+# Association API #
 
 ## Navigation
 [Overview][] | [Association Mechanisms][] | [API][] | [Association Automatization][] | [Examples][] | [Code Example][]
