@@ -231,7 +231,6 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 									}
 								}else{
 									clearInterval(interval);
-									if(req!=undefined) audioCtx.close();
 									evt = document.createEvent('Event');
 									evt.initEvent('ended', true, true);
 									document.dispatchEvent(evt);
@@ -893,11 +892,8 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 																		
 																		var args2 =["acoustic",args[2]];
 																		acousticAssociationCatcher(args2).then(function(data){
-																			if(data.response.indexOf('http://')!=-1||data.response.indexOf('https://')!=-1){
-																				req = $.post("http://"+serverUrl+"/api/associate",{url:url}, function(data1){
-																					resolve(JSON.parse('{"response":"'+data.response+'"}'));//window.location=data.response;
-																				});
-																			}else{
+																			if(data.response.indexOf('http://')!=-1||data.response.indexOf('https://')!=-1) resolve(JSON.parse('{"response":"'+data.response+'"}'));//window.location=data.response;
+																			else{
 																				createMessageEvent("shakeChange", true, "errorMessage", 3);
 																				timeout=setTimeout(function(){
 																					createMessageEvent("shakeChange", false);
@@ -911,7 +907,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 															}
 														});
 													}else{
-														req = $.post("http://"+serverUrl+"/api/associate",{timestamp: time,location:{latitude:dataExtra.extra[0].latitude,longitude:dataExtra.extra[1].longitude}}, function(data1){
+														req = $.post("http://"+serverUrl+"/api/associate",{timestamp: new Date().getTime(),location:{latitude:dataExtra.extra[0].latitude,longitude:dataExtra.extra[1].longitude}}, function(data1){
 															if(data1)
 															{
 																if(data1.response.indexOf('http://')!=-1||data1.response.indexOf('https://')!=-1) resolve(JSON.parse('{"response":"'+data1.response+'"}'));//window.location=data1.response;

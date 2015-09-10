@@ -141,7 +141,6 @@ document.addEventListener('mediascape-ready',function(e){
 				$("#myModal").modal({
 					show: true
 				});
-				console.log(data);
 				visualize("associationCodes",url, data.response);
 			}else console.log("It has not been possible to minimize the url.");
 		});
@@ -210,17 +209,27 @@ document.addEventListener('mediascape-ready',function(e){
 			req = $.post("http://"+serverUrl+"/api/associated",{url:url}, function(data1){
 				if(data1)
 				{
-					errorMessage(2);
-					timeout = setTimeout(function(){
-						associationMessage(1);
-						document.getElementById("associationCodes").innerHTML = "";
-						mediascape.association.doAssociation("qr","associationCodes",url,true).then(function(data){
-							$("#myModal").modal({
-								show: true
-							});
-							visualize("associationCodes",url,data.response);
+					if(data1.response.indexOf('http://')!=-1||data1.response.indexOf('https://')!=-1){
+						$("#myModal").modal({
+							show: true
 						});
-					},5000);
+						associationMessage(2);
+						timeout=setTimeout(function(){
+							$("#myModal").modal("hide");
+						}, 5000);
+					} else {
+						errorMessage(2);
+						timeout = setTimeout(function(){
+							associationMessage(1);
+							document.getElementById("associationCodes").innerHTML = "";
+							mediascape.association.doAssociation("qr","associationCodes",url,true).then(function(data){
+								$("#myModal").modal({
+									show: true
+								});
+								visualize("associationCodes",url,data.response);
+							});
+						},5000);
+					}
 				}
 			});
 		}

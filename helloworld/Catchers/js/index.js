@@ -52,7 +52,17 @@ document.addEventListener('mediascape-ready',function(e){
 		});
 		mediascape.association.doAssociation("acoustic","audioCatcherInfo").then(function(data){
 			if(data.response.indexOf('http://')!=-1||data.response.indexOf('https://')!=-1) window.location=data.response;
-			else console.log(data);
+			else {
+				document.getElementById("audioCatcherInfo").innerHTML="";
+				document.getElementById("audioCatcher").style.display='none';
+				$("#myModal").modal({
+					show: true
+				});
+				errorMessage(data.response)
+				timeout=setTimeout(function(){
+					$("#myModal").modal("hide");
+				}, 5000);
+			}
 		});
 	});
 	document.addEventListener('catchShake', function(){
