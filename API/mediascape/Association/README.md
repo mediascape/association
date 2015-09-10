@@ -81,13 +81,6 @@ The complete set of JavaScript functions defined for association are listed belo
 		* Discover other channel peers.
 		* Establish communication channels between its own channel peers and other channel peers.
 
-		Here we have two alternatives:
-
-		1. Native stack
-		2. Web-Browser stack 
-
-		* Native stack
-
 		Association API has a daemon companion that exploits a Named Web Socket proxy to find other sessions available on its LAN. In such case, the daemon send a Push Notification and the user can decide to accept or decline joining a specific party.
 
 		![alt text](https://github.com/mediascape/WP3/blob/master/API/WP3mediascape/Association/img/nwsNative.png "Named Web Sockets Native Stack")
@@ -98,22 +91,6 @@ The complete set of JavaScript functions defined for association are listed belo
 		2. This first device broadcasts the full app URL, including the session, through a “MediaScape” Named Web Socket.
 		3. Other devices running the MediaScape daemon, acting as catchers, would capture the availability of this session in the “MediaScape” Named Web Socket and push a native notification.
 		4. If user accepts it a web browser is launched with the MediaScape app in the target session, starting the shared experience.
-
-		* Web-Browser stack 
-
-		Association API has a library that implements in a Chrome Web Browser the Named Web Socket stack to find other sessions available on its LAN. In such case, the catcher listens for a Notification and the catcher join a specific party.
-
-		![alt text](https://github.com/mediascape/WP3/blob/master/API/WP3mediascape/Association/img/nwsBrowser.png "Named Web Sockets Web-Browser Stack")
-
-		This way, the association mechanism is the following one:
-
-		1. The MediaScape app acting as trigger, creates a new session in the app.
-		2. This first device broadcasts the full app URL, including the session, through a “MediaScape” Named Web Socket.
-		3. The user holds the catcher device and performs an action, pushing a button or shaking the device itself.
-		4. The catcher automatically opens a MediaScape Association app and capture the availability of this session in the “MediaScape” Named Web Socket.
-		5. The web browser redirects to the MediaScape app in the target session, starting the shared experience.
-
-		As a result of running these functions, the catcher obtains the URL of the trigger in a specific MediaScape application and in a specific session. Thus, meeting all peers that are requesting the same named websocket channel name with each other on the local network.
 
 	* QR Codes
 
