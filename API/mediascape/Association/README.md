@@ -267,7 +267,7 @@ The examples that follows show the use of Association API.
 		* Trigger
 
 			```javascript
-				mediascape.association.doAssociation("aciustic",url,true).then(function(data){
+				mediascape.association.doAssociation("acoustic",url,true).then(function(data){
 					console.log(data);
 				});
 			```
@@ -275,7 +275,7 @@ The examples that follows show the use of Association API.
 		* Catcher
 
 			```javascript
-				mediascape.association.doAssociation("aciustic","aciusticCatcher").then(function(data){
+				mediascape.association.doAssociation("acoustic","aciusticCatcher").then(function(data){
 				console.log(data);
 			});
 			```
