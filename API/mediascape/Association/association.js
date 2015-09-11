@@ -231,7 +231,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 									}
 								}else{
 									clearInterval(interval);
-									if(req!=undefined) audioCtx.close();
+									if(audioCtx!=undefined) audioCtx.close();
 									evt = document.createEvent('Event');
 									evt.initEvent('ended', true, true);
 									document.dispatchEvent(evt);
@@ -723,8 +723,8 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 																	createMessageEvent("startAudioProcessing");
 																	setTimeout(function(){
 																		clearInterval(the_interval);
-																		if(req!=undefined) audioCtx.close();
-																		resolve(JSON.parse('{"response":"<p>Problem catching the audio.</p>"}'));
+																		if(audioCtx!=undefined) audioCtx.close();
+																		resolve(JSON.parse('{"response":"<p>Could not catch the audio.</p>"}'));
 																	},30000);
 																}
 															}
@@ -798,7 +798,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 										console.log("Checksum: "+resul.substring(resul.length-3,resul.length));
 										document.getElementById(args[1]).insertAdjacentHTML('beforeend', "<br>Result:<br>"+resul.substring(6,resul.length-3));
 										clearInterval(the_interval);
-										if(req!=undefined) audioCtx.close();
+										if(audioCtx!=undefined) audioCtx.close();
 										resolve(JSON.parse('{"response":"'+resul.substring(6,resul.length-3)+'"}'));
 									}
 								});
@@ -1031,7 +1031,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 							clearInterval(interval);
 						}
 					}
-					if(req!=undefined) audioCtx.close();
+					if(audioCtx!=undefined) audioCtx.close();
 					clearTimeout(timeout);
 					if(req!=undefined) req.abort();
 			});
