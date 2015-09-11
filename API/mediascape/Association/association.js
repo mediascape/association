@@ -231,7 +231,6 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 									}
 								}else{
 									clearInterval(interval);
-									if(audioCtx!=undefined) audioCtx.close();
 									evt = document.createEvent('Event');
 									evt.initEvent('ended', true, true);
 									document.dispatchEvent(evt);
@@ -649,6 +648,8 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 						}
 						freq_error = increment / 3;
 
+						if(audioCtx!=undefined) audioCtx.close();
+
 						audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 						navigator.getMedia = ( navigator.getUserMedia
@@ -673,6 +674,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 								var checksum="";
 								var predecessor="";
 								var predecessorletter="";
+								var predecessorletter2=false;
 								var startProcessing=false;
 								var endProcessing=false;
 								var repeated=false;
@@ -723,8 +725,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 																	createMessageEvent("startAudioProcessing");
 																	setTimeout(function(){
 																		clearInterval(the_interval);
-																		if(audioCtx!=undefined) audioCtx.close();
-																		resolve(JSON.parse('{"response":"<p>Could not catch the audio.</p>"}'));
+																		resolve(JSON.parse('{"response":"<p>Problem catching the audio.</p>"}'));
 																	},30000);
 																}
 															}
@@ -733,7 +734,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 														}
 												}
 											}
-											if(predecessor!=freqs[i] && startProcessing && oldCont>5){
+											/*if(predecessor!=freqs[i] && startProcessing && oldCont>5){
 												if(result==dupe){
 													repeated=true;
 													resul=resul+predecessorletter;
@@ -757,8 +758,73 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 																	document.getElementById(args[1]).insertAdjacentHTML('beforeend', predecessorletter);
 																}else upperLetter="";
 															}
+											}*/
+											if(predecessor!=freqs[i] && startProcessing && oldCont>5){
+												if(result==caps){
+														if(!predecessorletter2){
+															console.log("Mayuscula Detectada sin predecesor Mayuscula");
+															//if result is !
+															upper=true;
+															predecessorletter2=true;
+															resul=resul+predecessorletter;
+															document.getElementById(args[1]).insertAdjacentHTML('beforeend', predecessorletter);
+														}else{
+															console.log("Mayuscula Detectada con predecesor Mayuscula");
+															//if result is !
+															upper=true;
+															predecessorletter2=true;
+														}
+													}else if(result==dupe){
+															//if result is |
+															if(!upper){
+																if(!predecessorletter2){
+																	console.log("Duplicado Detectado Sin Mayuscula sin predecesor Mayuscula");
+																	repeated=true;
+																	resul=resul+predecessorletter;
+																	document.getElementById(args[1]).insertAdjacentHTML('beforeend', predecessorletter);
+																}else{
+																	console.log("Duplicado Detectado Sin Mayuscula con predecesor Mayuscula");
+																	repeated=true;
+																}
+															}else{
+																console.log("Duplicado Detectado Con Mayuscula");
+																repeated=true;
+															}
+														} else if(upper){
+															if(!repeated){
+																console.log("Upper !repeated");
+																resul=resul+result.toUpperCase();
+																upper=false;
+																upperLetter=result;
+																document.getElementById(args[1]).insertAdjacentHTML('beforeend', result.toUpperCase());
+															}else {
+																console.log("Upper repeated");
+																resul=resul+result.toUpperCase()+result.toUpperCase();
+																repeated=false;
+																upperLetter=result;
+																document.getElementById(args[1]).insertAdjacentHTML('beforeend', result.toUpperCase()+result.toUpperCase());
+															}
+														}else if(repeated){
+																console.log("repeated");
+																resul=resul+result;
+																repeated=false;
+																document.getElementById(args[1]).insertAdjacentHTML('beforeend', result);
+																predecessorletter2=false;
+															}else{
+																console.log("last");
+																predecessorletter2=false;
+																if(predecessorletter!=upperLetter){
+																	resul=resul+predecessorletter;
+																	document.getElementById(args[1]).insertAdjacentHTML('beforeend', predecessorletter);
+																}else upperLetter="";
+															}
 											}
 											resultChecksum=generate_checksum(resul.substring(6,resul.length-3));
+											if(checksum.indexOf("|")==0||checksum.indexOf("|")==1){
+												if(checksum.indexOf("|")<checksum.length-1){
+													checksum=checksum.replace("|", checksum.substring(checksum.indexOf("|")+1,checksum.indexOf("|")+2));
+												}
+											}
 											if(checksum.length==3 && predecessor!=freqs[i]){
 												if(parseInt(checksum)==resultChecksum && resultChecksum!=0){
 													clearInterval(the_interval);
@@ -798,7 +864,6 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 										console.log("Checksum: "+resul.substring(resul.length-3,resul.length));
 										document.getElementById(args[1]).insertAdjacentHTML('beforeend', "<br>Result:<br>"+resul.substring(6,resul.length-3));
 										clearInterval(the_interval);
-										if(audioCtx!=undefined) audioCtx.close();
 										resolve(JSON.parse('{"response":"'+resul.substring(6,resul.length-3)+'"}'));
 									}
 								});
