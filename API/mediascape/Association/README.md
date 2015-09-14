@@ -230,7 +230,7 @@ The examples that follows show the use of Association API.
 		* Trigger
 
 			```javascript
-				mediascape.association.doAssociation("nws",'mediascape',true).then(function(data){
+				mediascape.association.doAssociation("nws",'mediascape',url,true).then(function(data){
 					console.log(data);
 				});
 			```
