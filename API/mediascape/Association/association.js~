@@ -50,7 +50,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 								if(args.length==2){
 									console.log("Trigger");
 									return shakeAssociationTrigger(args);
-								}else if(args.length==3){
+								}else if(args.length==1){
 									console.log("Catcher");
 									return shakeAssociationCatcher(args);
 								}else resolve(JSON.parse('{"response":"<p>Review the number of parameters used.</p>"}'));
@@ -77,10 +77,10 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 										}else if(args[0].toLowerCase()==="sync"){
 											if(args.length==2){
 												console.log("Trigger");
-												return syncAssociationTrigger(args);
+												return sincAssociationTrigger(args);
 											}else if(args.length==1){
 												console.log("Catcher");
-												return syncAssociationCatcher(args);
+												return sincAssociationCatcher(args);
 											}else resolve(JSON.parse('{"response":"<p>Review the number of parameters used.</p>"}'));
 										}else resolve(JSON.parse('{"response":"<p>The technology has not been developed yet.</p>"}'));
 
@@ -458,7 +458,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 		*
 		***********************************************************************************************/
 
-			function syncAssociationTrigger(args){
+			function shakeAssociationTrigger(args){
 				console.log('shakeAssociationTrigger');
 				var p1= new Promise(
 					function(resolve,reject){
@@ -570,10 +570,13 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 																	if(data1)
 																	{
 																		if(data1.response.indexOf('http://')!=-1||data1.response.indexOf('https://')!=-1){
-																			resolve(JSON.parse('{"response":"<p>Association process has been completed successfully</p>"}'));
+																			createMessageEvent("shakeChange", true, "errorMessage", 1);
+																			createMessageEvent("shakeChange", true, "message", 2);
+																			resolve(JSON.parse('{"response":"'+data1.response+'"}'));
 																		}
 																		else {
-																			resolve(JSON.parse('{"response":"<p>The device can not be associated.</p>"}'));
+																			createMessageEvent("shakeChange", true, "errorMessage", 1);
+																			resolve(JSON.parse('{"response":"'+data1.response+'"}'));
 																		}
 																	}
 																});
@@ -583,10 +586,13 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 																	if(data1)
 																	{
 																		if(data1.response.indexOf('http://')!=-1||data1.response.indexOf('https://')!=-1){
-																			resolve(JSON.parse('{"response":"<p>Association process has been completed successfully</p>"}'));
+																			createMessageEvent("shakeChange", true, "errorMessage", 1);
+																			createMessageEvent("shakeChange", true, "message", 2);
+																			resolve(JSON.parse('{"response":"'+data1.response+'"}'));
 																		}
 																		else {
-																			resolve(JSON.parse('{"response":"<p>The device can not be associated.</p>"}'));
+																			createMessageEvent("shakeChange", true, "errorMessage", 1);
+																			resolve(JSON.parse('{"response":"'+data1.response+'"}'));
 																		}
 																	}
 																});
@@ -734,6 +740,8 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 							freq = freq + increment;
 						}
 						freq_error = increment / 3;
+
+						if(audioCtx!=undefined) audioCtx.close();
 
 						audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 

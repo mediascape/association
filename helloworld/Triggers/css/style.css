@@ -6,15 +6,21 @@ body{
 
 /* Large desktops and laptops */
 @media (min-width: 1200px) {
+	.col-md-2 {
+		width: 13%; 
+	}
 	#javascript button{
-		width:190px;
+		width:150px;
 	}
 }
 
 /* Landscape tablets and medium desktops */
 @media (min-width: 992px) and (max-width: 1199px) {
+	.col-md-2 {
+		width: 14.5%; 
+	}
 	#javascript button{
-		width:100%;
+		width:150px;
 	}
 }
 

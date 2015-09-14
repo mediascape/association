@@ -14,8 +14,13 @@ document.addEventListener('mediascape-ready',function(e){
 		document.dispatchEvent(event);
 	};
 
+	document.getElementById("syncCatcher").onclick = function(){
+		var event = new CustomEvent("catchSync", { "detail": "Generates sync association." });
+		document.dispatchEvent(event);
+	};
+
 	document.getElementById("shakeCatcher").onclick = function(){
-		var event = new CustomEvent("catchShake", { "detail": "Generates both elements." });
+		var event = new CustomEvent("catchShake", { "detail": "Generates Shake&Go association." });
 		document.dispatchEvent(event);
 	};
 
@@ -65,6 +70,22 @@ document.addEventListener('mediascape-ready',function(e){
 			}
 		});
 	});
+
+	document.addEventListener('catchSync', function(){
+		document.getElementById("associationCodes").innerHTML = "";
+		associationMessage(1);
+		$("#myModal").modal({ show: true });
+		mediascape.association.doAssociation("sync").then(function(data){
+			if(data.response.indexOf('http://')!=-1||data.response.indexOf('https://')!=-1) window.location=data.response;
+			else{
+				errorMessage(data.response);
+				timeout = setTimeout(function(){
+					$("#myModal").modal("hide");
+				}, 5000);
+			}
+		});
+	});
+
 	document.addEventListener('catchShake', function(){
 		mediascape.discovery.isPresent('namedwebsockets').then(function(data){
 			if(data.presence){

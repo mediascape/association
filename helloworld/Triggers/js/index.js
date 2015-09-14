@@ -44,6 +44,11 @@ document.addEventListener('mediascape-ready',function(e){
 		document.dispatchEvent(event);
 	};
 
+	document.getElementById("syncStart").onclick = function(){
+		var event = new CustomEvent("startSync", { "detail": "Generates both elements." });
+		document.dispatchEvent(event);
+	};
+
 	mediascape.discovery.isPresent('namedwebsockets').then(function(data){
 		if(data.presence){
 			delete value;
@@ -233,6 +238,32 @@ document.addEventListener('mediascape-ready',function(e){
 				}
 			});
 		}
+	});
+
+	document.addEventListener('startSync', function(){
+		document.getElementById("associationCodes").innerHTML = "";
+		associationMessage(1);
+		$("#myModal").modal({
+			show: true
+		});
+		mediascape.association.doAssociation("sync",url).then(function(data){
+			if(data){
+				if(data.response.indexOf('http://')!=-1||data.response.indexOf('https://')!=-1){
+					$("#myModal").modal({
+						show: true
+					});
+					associationMessage(2);
+					timeout=setTimeout(function(){
+						$("#myModal").modal("hide");
+					}, 5000);
+				} else {
+					errorMessage(data.response);
+					timeout = setTimeout(function(){
+						$("#myModal").modal("hide");
+					}, 5000);
+				}
+			}
+		});
 	});
 
 	document.addEventListener('startShakeGo', function(){
