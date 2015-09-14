@@ -48,6 +48,12 @@ the URLs in the shorten processes.
 ```
 Please dont execute it inside the git folder. Best practice is to download just the the `.sh` file and execute.
 
+Shake&Go
+
+The Shake&Go association needs the use of [Discovery Agent REST](https://github.com/mediascape/discovery-self/tree/master/complements/discovery-agent-REST) to detect the shake. But it is very important to set the webpage that has to open to accede to the start of catching. It can be done in two ways:
+* Editing the url that you will find into the file url.txt inside the folder "/data/data/com.example.discoveryagentrest/files" of the device.
+* Before install the Discovery Agent REST edititn the URL of the line 397 of the file [ServiceBoot.java](https://github.com/mediascape/discovery-self/blob/master/complements/discovery-agent-REST/discovery-agent-REST-android/src/com/example/discoveryagentrest/ServiceBoot.java).
+
 ### run
 After everything is set up, and the node.js server is started, you can access the Catcher and Trigger demos using the urls (depending on your setup): 
 ```
