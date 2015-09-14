@@ -1,6 +1,6 @@
 #Server
 
-This folder contains the examples Association Triggers.
+This folder contains the example of the server that will be use in the Association example web pages.
 
 ## Navigation
 [Installation][] | [Run][] 
@@ -23,11 +23,17 @@ next to the `package.json`. Then simply run
 ```
 to start the server.
 
+Inside public folder you will have to deploy the service that you wanna present. The name of the service folder will be the path to access the service.
+
+## Deployment
+
+In the helloworld[../helloworld] folder you will find the right way to deploy the full example with the Catchers and Triggers services to test the Association service.
+
 ## Run
 
 Open a browser an go to:
 
-http://localhost:7000/Triggers/
+http://localIP:7000/ServiceFolderName/
 
 [Installation]: #installation
 [Run]: #run
