@@ -57,7 +57,7 @@ The Shake&Go association needs the use of [Discovery Agent REST](https://github.
             ...
             if(!file2.exists()){
 		    	 	Log.d("MyApp", "File Does not Exist.");
-		    	   --->	final String string = new String("http://192.168.10.21:7000/Catchers/");  
+		    --->	final String string = new String("http://192.168.10.21:7000/Catchers/");  
 		    	 	FileOutputStream fos = this.openFileOutput("url.txt", Context.MODE_PRIVATE);
 		    	 	fos.write(string.getBytes());
 		    	 	fos.close();
