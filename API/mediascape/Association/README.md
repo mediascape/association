@@ -292,7 +292,7 @@ The examples that follows show the use of Association API.
 		* Catcher
 
 			```javascript
-				mediascape.association.doAssociation("shake","qrCatcher").then(function(data){
+				mediascape.association.doAssociation("shake","qrCatcher","audioCatcherPlace").then(function(data){
 					console.log(data);
 				});
 			```
