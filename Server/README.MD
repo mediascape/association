@@ -27,7 +27,7 @@ Inside public folder you will have to deploy the service that you wanna present.
 
 ## Deployment
 
-In the helloworld[../helloworld] folder you will find the right way to deploy the full example with the Catchers and Triggers services to test the Association service.
+In the [helloworld](../helloworld) folder you will find the right way to deploy the full example with the Catchers and Triggers services to test the Association service.
 
 ## Run
 
