@@ -41,7 +41,10 @@ mongod
 Next to this file you will find a script called `deploy.sh`.
 This script will clone the git and install everything in a folder called `deploy` relative to the file itsself. It will copy the [server](../Server) and the [API](../API) including this HelloWorld sample. After preparing the files, the script will install all needed dependencies for the backend and start a small setup-script to configure it.
 ```sh
-Once the system has been deployed, you have to set your bit.ly user and password in "deploy/public/Catchers/js/mediascape/Association/association.js" and "deploy/public/Triggers/js/mediascape/Association/association.js" files to could short the URLs in the shorten processes.
+Once the system has been deployed, you have to set your bit.ly user and password in
+"deploy/public/Catchers/js/mediascape/Association/association.js" and
+"deploy/public/Triggers/js/mediascape/Association/association.js" files to could short
+the URLs in the shorten processes.
 ```
 Please dont execute it inside the git folder. Best practice is to download just the the `.sh` file and execute.
 
