@@ -48,7 +48,7 @@ the URLs in the shorten processes.
 ```
 Please dont execute it inside the git folder. Best practice is to download just the the `.sh` file and execute.
 
-Shake&Go
+[Shake&Go](https://github.com/mediascape/association/tree/master/API/mediascape/Association)
 
 The Shake&Go association needs the use of [Discovery Agent REST](https://github.com/mediascape/discovery-self/tree/master/complements/discovery-agent-REST) to detect the shake. But it is very important to set the landing webpage that has to open to accede to the start of catching. It can be done in two ways:
 * Editing the url that you will find into the file url.txt inside the folder "/data/data/com.example.discoveryagentrest/files" of the device.
