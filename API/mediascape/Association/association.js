@@ -97,7 +97,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 				var p1= new Promise(
 					function(resolve,reject){
 						var deferred = $.Deferred();
-						if(args[2]&&args[1].indexOf("bit.ly")==-1){
+						if(args[2]&&args[1].indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
 							shortURL(args[1]).then(function(data){
 								resolve(JSON.parse('{"response":"'+data.response+'"}'));
 							});
@@ -132,7 +132,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 							height=args[5];
 						}
 
-						if(short&&url.indexOf("bit.ly")==-1){
+						if(short&&url.indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
 							shortURL(url).then(function(data){
 								return visualizeQr(placeId,data.response,width,height,resolve);
 							});
@@ -190,7 +190,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 						var dupe = "|";
 						var caps = "!";
 
-						if(args[2]&&args[1].indexOf("bit.ly")==-1){
+						if(args[2]&&args[1].indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
 							shortURL(args[1]).then(function(data){
 								acoustic(data.response);
 							});
@@ -368,7 +368,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 									console.log("Start Interval");
 									value.emiter=true;
 									if(url.indexOf("localhost")==-1){
-										if(args[2]&&url.indexOf("bit.ly")==-1){
+										if(args[2]&&url.indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
 											shortURL(url).then(function(miniUrl){
 												interval = setInterval(function (){
 													console.log(miniUrl.response);
@@ -413,7 +413,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 									console.log("Emit");
 									value.emiter=true;
 									if(url.indexOf("localhost")==-1){
-										if(args[2]){
+										if(args[2]&&url.indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
 											shortURL(url).then(function(miniUrl){
 												console.log(miniUrl.response);
 												value.send(miniUrl.response);
