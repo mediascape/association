@@ -17,8 +17,8 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 		******************************************************************************************/
 		this.doAssociation = function(){
 			//Bitly Legacy API Key: https://bitly.com/a/settings/advanced
-			var bitlyUser="ionalberdi";
-			var bitlyPass="R_978251cf3ed04317a147fde5a237b13c";
+			var bitlyUser="";
+			var bitlyPass="";
 			var serverUrl=window.location.host;
 			var args = Array.prototype.slice.call(arguments);
 
