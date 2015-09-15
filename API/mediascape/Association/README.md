@@ -10,12 +10,32 @@ The Association module is responsible of establish the communication mechanisms 
 
 This document summarizes the *Association* API to access the implemented JS library information. The target of this document is to reflect the status of design and development of the *Association* library and provide a list of available functions.
 
-The solutions include three different situations that the association module has to address:
-* **Anonymous**- Fully public, the acquaintance or capability to reach a device is transferred to the physical ISO layer (WLAN/LAN).
-* **Personal** After the explicit User Auth, a unique temporal public key or secret could be employed to associate all the MediaScape devices inside a Shared Session.
-* **Multi-user** The association of different users is based on the application specific users names acquaintance.
+Association API drives the bootstrapping of multi-device sessions, being highly depended on the initial conditions. 
+The starting point only considers the case when the multi-device session involves two devices. However, generalization to a larger number of devices can be done the same way or on a two-by-two basis.
 
-New functions are being implemented.
+The general functional scenario comprises this behaviour:
+
+1. In the beginning, a first device is running some kind of app that is willing to create a multi-device experience. 
+2. The app running on the first device may be a regular Web app that the user is interacting with, or an autostart app triggered by a TV or radio channel.
+3. After associating, apps running on both devices are from the same origin, so both devices are interacting with the same backend endpoint.
+4. In the end, the two devices should partake in the same multi-device experience, meaning that the two devices should be able to exchange messages to agree on things.
+
+So there are two main roles:
+* **Trigger**: the application instance that wants to share its session to invite others to join the same experience
+* **Catcher**: the application instance that wants to join with others to the same experience
+
+For instance, both devices could use that channel to exchange the URL of a Shared State in the case of MediaScape, or the first device may use that channel to send control commands to the second.
+
+This way, a set of instances of a MediaScape application, without explicit or implicit user login, running on top of devices could create transparently a shared experience.
+
+These conditions establish a common starting point:
+* Both devices are connected or not to the same local area network
+* Both devices may access the internet
+* An app can be launched on the second device, as opposed to the device just exposing a service endpoint.
+* The user is the same for both devices
+* The user may easily interact with the first device (e.g. enter a code)
+* The user may easily interact with the second device (e.g. enter a code)
+* Both devices are in close physical proximity
 
 ---
 
@@ -67,6 +87,13 @@ The complete set of JavaScript functions defined for association are listed belo
 		mediascape.association.doAssociation("<target>",[parameters]).then(cb(sessionJSON));
 	```
 
+	For **_triggers_** the "doAssociation" method returns the promise to *cb(sessionJSON)*, where *cb(sessionJSON)* could mean:
+	* have initiated a pairing process between two devices using the suggested method, process being in no particular state
+	* have broadcasted the provided URL using the suggested method
+	* have found a secondary device that will load the URL
+ 
+	For **_catchers_** the promise returned by the "doAssociation" method is resolved on the Catcher when it has received a URL to launch.
+	
 	This function provides association methods based in the selected technology. In this moment the are 5 different technologies to associate devices:
 
 	* Named Web Sockets (NWS)
@@ -114,7 +141,7 @@ The complete set of JavaScript functions defined for association are listed belo
 		6. The user captures the code in the catcher.
 		7. The catcher decodes the QR code to find the full URLand to the catcher redirects to this URL.
 
-	* FSK
+	* Acoustic
 
 		It creates an acoustic signal based on the url passed as a parameter for the association of devices.
 
@@ -137,9 +164,7 @@ The complete set of JavaScript functions defined for association are listed belo
 		7. The catcher decodes the acoustic pattern.
 		8. The catcher finds the full URL and redirects to this URL.
 
-	* Shake&Go
-
-		It creates an association method based on Shake&Go technology developed by Vicomtech for the association of devices.
+	* Sync
 
 		This approach gains the built-in sensors from mobile devices to solve the problem of devices association. For the use of this solution it is necessary to have a centralized server which manages all the association requests and processes.
 
@@ -200,6 +225,7 @@ Once the user has decided to detect the different events, it has to call to the 
 The association process is divided in two types. On one hand, the automated association mechanism and on the other, on-demand association mechanisms with different levels of required explicit user actions. MediaScape Association brings a wide set of possibilities. From those users with a HW and SW stack fully compatible with MediaScape Association that can enjoy a more transparent and consistent experience. To others that will join a multidevice experience through mechanisms adapted to their HW/SW limitations.
 
 The first step for the bootstrapping of the association process is:
+
 	1. Trigger device already running a MediaScape app instance that broadcast the available session for candidate companion devices. This includes:
 		a) to have or to access to a Mediascape Application which will broadcast the association data
 	2. Catcher device that want to join the MediaScape app to expand its experience. This involves:
@@ -216,6 +242,118 @@ The following diagram shows the pipeline for automated association processes.
 ![alt text](https://github.com/mediascape/WP3/blob/master/API/WP3mediascape/Association/img/process.png "Pipeline for automated association processes")
 
 The workflow of the pairing system is quite simple, as soon as the user connect to the webpage, the system will detect the available technologies working in the device. 
+
+--
+
+##Sintaxis##
+[Top][]
+
+The parameters required by the different alternatives available in the Association API are. 
+
+* doAssociation
+
+	* Named Web Sockets
+		* Trigger
+
+			```javascript
+				mediascape.association.doAssociation("nws",channel,url,beacon).then(cb(sessionJSON));
+			```
+			*for the trigger the App has to get previously a groupID from the WP4 Mapping service to be broadcasted added to the baseURL*
+
+		* Catcher
+
+			```javascript
+				mediascape.association.doAssociation("nws",channel).then(cb(sessionJSON));
+			```
+		Parameters:
+			* *url*: full URL including the session to be employed in any device to join a shared experience on a Web application. This way, the trigger gets acceptation awareness while the catcher gets the redirecting URL
+			* *channel*: string to establish a communications room ID for LAN association through NWS
+			* *beacon*: boolean to enable repeatedly association message send each second
+
+	* QR Codes
+		* Trigger
+
+			```javascript
+				mediascape.association.doAssociation("qr",htmlElementID,url,short[,xsize,ysize]).then(cb(sessionJSON));
+			```
+			*for the trigger the App has to get previously a groupID from the WP4 Mapping service to be broadcasted added to the baseURL*
+			
+		* Catcher
+
+			```javascript
+				mediascape.association.doAssociation("qr",htmlElementID).then(cb(sessionJSON));
+			```
+		Parameters:
+			* *htmlElementID*: Unique identifier of a div-like HTML tag element that will host the QR code for the Trigger or the camera capturing solution for the Catcher.
+			* *url*: full URL including the session to be employed in any device to join a shared experience on a Web application. This way, the trigger gets acceptation awareness while the catcher gets the redirecting URL
+			* *short*: boolean to govern the utilization of shortened URLs
+			* *xsize*,*ysize*: optional dimensions of the displayed QR code
+
+	* Acoustic
+		* Trigger
+
+			```javascript
+				mediascape.association.doAssociation("acoustic",url,short).then(cb(sessionJSON));
+			```
+			*for the trigger the App has to get previously a groupID from the WP4 Mapping service to be broadcasted added to the baseURL*
+
+		* Catcher
+
+			```javascript
+				mediascape.association.doAssociation("acoustic",htmlElementID).then(cb(sessionJSON));
+			```
+		Parameters:
+			* *url*: full URL including the session to be employed in any device to join a shared experience on a Web application. This way, the trigger gets acceptation awareness while the catcher gets the redirecting URL
+			* *short*: boolean to govern the utilization of shortened URLs
+			* *htmlElementID*: unique identifier of a div-like HTML tag element that will host the  mic capturing solution for the Catcher.
+
+	* Sync
+		* Trigger
+
+			```javascript
+				mediascape.association.doAssociation("sync", url).then(cb(sessionJSON));
+			```
+			*for the trigger the App has to get previously a groupID from the WP4 Mapping service to be broadcasted added to the baseURL*
+			
+		* Catcher
+
+			```javascript
+				mediascape.association.doAssociation("sync").then(cb(sessionJSON));
+			```
+		Parameters:
+			* *url*: full URL including the session to be employed in any device to join a shared experience on a Web application. This way, the trigger gets acceptation awareness while the catcher gets the redirecting URL
+
+	* Text
+		* Trigger
+
+			```javascript
+				mediascape.association.doAssociation("text",url,true).then(cb(sessionJSON));
+			```
+			*for the trigger the App has to get previously a groupID from the WP4 Mapping service to be broadcasted added to the baseURL*
+
+		* Catcher
+			The Catcher would have to open the displayed URL and no function is needed.
+
+		Parameters:
+			* *url*: full URL including the session to be employed in any device to join a shared experience on a Web application. This way, the trigger gets acceptation awareness while the catcher gets the redirecting URL
+			* *short*: boolean to govern the utilization of shortened URLs
+			
+	* Shake&Go (Association Automatization pipelining several association mechanisms to minimize user interaction)
+		* Trigger
+
+			```javascript
+				mediascape.association.doAssociation("shake", url).then(cb(sessionJSON));
+			```
+
+		* Catcher
+
+			```javascript
+				mediascape.association.doAssociation("shake",htmlElementID_catcherQR,htmlElementID_catcherAcoustic).then(cb(sessionJSON));
+			```
+		Parameters:
+			* *url*: full URL including the session to be employed in any device to join a shared experience on a Web application. This way, the trigger gets acceptation awareness while the catcher gets the redirecting URL
+			* *htmlElementID_catcherQR*: Unique identifier of a div-like HTML tag element that will host the camera capturing solution for the Catcher.
+			* *htmlElementID_catcherAcoustic*: Unique identifier of a div-like HTML tag element that will host the mic capturing solution for the Catcher.
 
 --
 
@@ -263,7 +401,7 @@ The examples that follows show the use of Association API.
 				});
 			```
 
-	* FSK
+	* Acoustic
 		* Trigger
 
 			```javascript
