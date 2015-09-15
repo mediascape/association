@@ -273,7 +273,6 @@ document.addEventListener('mediascape-ready',function(e){
 				$("#myModal").modal("show");
 				if(data.response.type==="message") associationMessage(data.response.text);
 				else if(data.response.type==="errorMessage") errorMessage(data.response.text);
-					else errorMessage(data.response.type);
 			}else if(data.response.show===false) $("#myModal").modal("hide");
 		});
 		mediascape.association.doAssociation("shake",url);
