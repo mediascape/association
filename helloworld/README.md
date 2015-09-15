@@ -37,6 +37,7 @@ mongod
 ```
 
 ####Deployment
+[Top][]
 
 Next to this file you will find a script called `deploy.sh`.
 This script will clone the git and install everything in a folder called `deploy` relative to the file itsself. It will copy the [server](../Server) and the [API](../API) including this HelloWorld sample. After preparing the files, the script will install all needed dependencies for the backend and start a small setup-script to configure it.
@@ -65,6 +66,7 @@ The Shake&Go association needs the use of [Discovery Agent REST](https://github.
             ...
 ```
 #### Complements
+[Top][]
 
 For a better use of this example, it is very important to open the web page in a device. This device must have installed Discovery Agent RESTFUL service and a namedwebsockets that you will find in:
 
@@ -77,6 +79,8 @@ https://github.com/mediascape/discovery-self/tree/master/complements/discovery-a
 https://github.com/mediascape/discovery-self/tree/master/complements/namedwebsockets-proxy
 
 ### run
+[Top][]
+
 After everything is set up, and the node.js server is started, you can access the Catcher and Trigger demos using the urls (depending on your setup): 
 ```
     http://localIP:7000/Triggers/
@@ -93,6 +97,7 @@ Any time later you can start the node.js server via:
 node index.js
 ```
 
+[Top]: #navigation
 [Installation]: #installation
 [Prerequisite]: #prerequisite
 [Deployment]: #deployment
