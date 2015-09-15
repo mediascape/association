@@ -29,7 +29,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 					}else if(args.length==2){
 						console.log("Catcher");
 						return qrCodeAssociationCatcher(args);
-					}else return errorParametersNumber("<p>Review the number of parameters used.</p>");
+					}else resolve(JSON.parse('{"response":"<p>Review the number of parameters used.</p>"}'));
 				}else if(args[0].toLowerCase()==="acoustic"){
 						if(args.length==3){
 							console.log("Trigger");
@@ -37,7 +37,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 						}else if(args.length==2){
 							console.log("Catcher");
 							return acousticAssociationCatcher(args);
-						}else return errorParametersNumber("<p>Review the number of parameters used.</p>");
+						}else resolve(JSON.parse('{"response":"<p>Review the number of parameters used.</p>"}'));
 					}else if(args[0].toLowerCase()==="nws"){
 							if(args.length==4){
 								console.log("Trigger");
@@ -45,7 +45,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 							}else if(args.length==2){
 								console.log("Catcher");
 								return nwsAssociationCatcher(args);
-							}else return errorParametersNumber("<p>Review the number of parameters used.</p>");
+							}else resolve(JSON.parse('{"response":"<p>Review the number of parameters used.</p>"}'));
 						}else if(args[0].toLowerCase()==="shake"){
 								if(args.length==2){
 									console.log("Trigger");
@@ -53,7 +53,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 								}else if(args.length==3){
 									console.log("Catcher");
 									return shakeAssociationCatcher(args);
-								}else return errorParametersNumber("<p>Review the number of parameters used.</p>");
+								}else resolve(JSON.parse('{"response":"<p>Review the number of parameters used.</p>"}'));
 							}else if(args[0].toLowerCase()==="dial"){
 									/*if(args.length>2){
 										console.log("Trigger");
@@ -73,7 +73,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 									}else if(args[0].toLowerCase()==="text"){
 											if(args.length==3){
 												return textAssociationTrigger(args);
-											}else return errorParametersNumber("<p>Review the number of parameters used.</p>");
+											}else resolve(JSON.parse('{"response":"<p>Review the number of parameters used.</p>"}'));
 										}else if(args[0].toLowerCase()==="sync"){
 											if(args.length==2){
 												console.log("Trigger");
@@ -81,18 +81,9 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 											}else if(args.length==1){
 												console.log("Catcher");
 												return syncAssociationCatcher(args);
-											}else return errorParametersNumber("<p>Review the number of parameters used.</p>");
-										}else return errorParametersNumber("<p>The technology has not been developed yet.</p>");
+											}else resolve(JSON.parse('{"response":"<p>Review the number of parameters used.</p>"}'));
+										}else resolve(JSON.parse('{"response":"<p>The technology has not been developed yet.</p>"}'));
 
-		function errorParametersNumber(arg){
-			console.log('errorParametersNumber');
-			var p1= new Promise(
-				function(resolve,reject){
-					resolve(JSON.parse('{"response":"'+arg+'"}'));
-				});
-			return p1;
-		}
-		
 		/*****************************************************************************************
 		*
 		*	mediascape.association.doAssociation('text', url, short)
@@ -106,7 +97,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 				var p1= new Promise(
 					function(resolve,reject){
 						var deferred = $.Deferred();
-						if(args[2]&&args[1].indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
+						if(args[2]&&args[1].indexOf("bit.ly")==-1){
 							shortURL(args[1]).then(function(data){
 								resolve(JSON.parse('{"response":"'+data.response+'"}'));
 							});
@@ -141,7 +132,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 							height=args[5];
 						}
 
-						if(short&&url.indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
+						if(short&&url.indexOf("bit.ly")==-1){
 							shortURL(url).then(function(data){
 								return visualizeQr(placeId,data.response,width,height,resolve);
 							});
@@ -199,7 +190,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 						var dupe = "|";
 						var caps = "!";
 
-						if(args[2]&&args[1].indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
+						if(args[2]&&args[1].indexOf("bit.ly")==-1){
 							shortURL(args[1]).then(function(data){
 								acoustic(data.response);
 							});
@@ -377,7 +368,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 									console.log("Start Interval");
 									value.emiter=true;
 									if(url.indexOf("localhost")==-1){
-										if(args[2]&&url.indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
+										if(args[2]&&url.indexOf("bit.ly")==-1){
 											shortURL(url).then(function(miniUrl){
 												interval = setInterval(function (){
 													console.log(miniUrl.response);
@@ -422,7 +413,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 									console.log("Emit");
 									value.emiter=true;
 									if(url.indexOf("localhost")==-1){
-										if(args[2]&&url.indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
+										if(args[2]){
 											shortURL(url).then(function(miniUrl){
 												console.log(miniUrl.response);
 												value.send(miniUrl.response);
@@ -481,7 +472,6 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 							jsonpCallback: "myCallback",
 							success: function (json) {
 								time=Date.parse(new Date(json.dateString));
-								if(url&&url.indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
 								shortURL(url).then(function(miniUrl){
 									if(miniUrl.response!=undefined){
 										mediascape.discovery.isPresent("geolocation").then(function(dataPresence){
@@ -536,7 +526,6 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 									}
 								});
 							}
-							}
 						});
 					});
 				return p1;
@@ -553,7 +542,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 		***********************************************************************************************/
 
 			function syncAssociationTrigger(args){
-				console.log('syncAssociationTrigger');
+				console.log('shakeAssociationTrigger');
 				var p1= new Promise(
 					function(resolve,reject){
 						var deferred = $.Deferred();
@@ -567,7 +556,6 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 							jsonpCallback: "myCallback",
 							success: function (json) {
 								time=Date.parse(new Date(json.dateString));
-								if(url&&url.indexOf("bit.ly")==-1&&bitlyUser!=""&&bitlyPass!=""){
 								shortURL(url).then(function(miniUrl){
 									if(miniUrl.response!=undefined){
 										mediascape.discovery.isPresent("geolocation").then(function(dataPresence){
@@ -610,7 +598,6 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 										});
 									}
 								});
-								}
 							}
 						});
 					});
@@ -1124,7 +1111,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 
 			function syncAssociationCatcher(args){
 				console.log(args);
-				console.log('syncAssociationCatcher');
+				console.log('shakeAssociationCatcher');
 				var p1= new Promise(
 					function(resolve,reject){
 						var deferred = $.Deferred();
