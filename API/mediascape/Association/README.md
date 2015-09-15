@@ -332,8 +332,10 @@ The parameters required by the different alternatives available in the Associati
 			*for the trigger the App has to get previously a groupID from the WP4 Mapping service to be broadcasted added to the baseURL*
 
 		* Catcher
-			The Catcher would have to open the displayed URL and no function is needed.
-
+		 
+			```javascript
+				The Catcher would have to open the displayed URL and no function is needed.
+			```
 		Parameters:
 			* *url*: full URL including the session to be employed in any device to join a shared experience on a Web application. This way, the trigger gets acceptation awareness while the catcher gets the redirecting URL
 			* *short*: boolean to govern the utilization of shortened URLs
