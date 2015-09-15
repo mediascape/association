@@ -536,7 +536,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 										}
 									});
 								}else{
-									createMessageEvent("shakeChange", true, "<p>It has not been possible to minimize the url.</p><p> Define a Bitly user and pass.</p>", 1);
+									resolve(JSON.parse('{"response":"<p>It has not been possible to minimize the url.</p><p> Define a Bitly user and pass.</p>"}'));
 								}
 							}
 						});
@@ -613,7 +613,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 										}
 									});
 								}else{
-									createMessageEvent("shakeChange", true, "<p>It has not been possible to minimize the url.</p><p> Define a Bitly user and pass.</p>", 1);
+									resolve(JSON.parse('{"response":"<p>It has not been possible to minimize the url.</p><p> Define a Bitly user and pass.</p>"}'));
 								}
 							}
 						});
