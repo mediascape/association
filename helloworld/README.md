@@ -64,6 +64,17 @@ The Shake&Go association needs the use of [Discovery Agent REST](https://github.
 			}else{
             ...
 ```
+#### Complements
+
+For a better use of this example, it is very important to open the web page in a device. This device must have installed Discovery Agent RESTFUL service and a namedwebsockets that you will find in:
+
+##### Native REST Agent
+
+https://github.com/mediascape/discovery-self/tree/master/complements/discovery-agent-REST
+
+##### Namedwebsockets Proxy
+
+https://github.com/mediascape/discovery-self/tree/master/complements/namedwebsockets-proxy
 
 ### run
 After everything is set up, and the node.js server is started, you can access the Catcher and Trigger demos using the urls (depending on your setup): 
