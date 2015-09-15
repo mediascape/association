@@ -97,6 +97,9 @@ module.exports = function(app,mongoose) {
 		var location=req.body.location;
 		var place=req.body.place;
 		var response = addCoors(req, res);
+
+		Association.emptyAssociation();
+
 		if(req.body.location){
 			console.log('Location');
 			if(req.body.url){

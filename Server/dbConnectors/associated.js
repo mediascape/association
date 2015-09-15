@@ -40,6 +40,19 @@ associatedSchema.statics.saveAssociation = function saveAssociation(associationI
 };
 
 /**
+ * emptyAssociation
+ *
+ * Using the parameters information the function creates and saves new request document in mongodb Requests collection.
+ * @return {JSON|String} The new device or an error message in case there is any problem durin the execution.
+ * 
+ */
+associatedSchema.statics.emptyAssociation = function emptyAssociation(){
+	this.remove(function (err) {
+		console.log('collection removed');
+	});
+};
+
+/**
  * findAssociationById
  *
  * Using the Id parameter information the function gets association.
