@@ -45,7 +45,8 @@ This script will clone the git and install everything in a folder called `deploy
 Once the system has been deployed, you have to set your bit.ly user and password in
 "deploy/public/Catchers/js/mediascape/Association/association.js" and
 "deploy/public/Triggers/js/mediascape/Association/association.js" files to could short
-the URLs in the shorten processes.
+the URLs in the shorten processes. Also you have to set the chromecast application ID and the 
+path to the receiver.html.
 ```
 Please dont execute it inside the git folder. Best practice is to download just the the `.sh` file and execute.
 
