@@ -1273,8 +1273,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib","receiver","sender","present
 						var presentationConnection=null;
 						var iframe;
 
-						if(args[1]!="")	iframe = document.querySelector(args[1]);
-
+						if(args[1]!=""&&document.querySelector(args[1])!=undefined) iframe = document.querySelector(args[1]);
 						/**
 						* React to the establishment of a new connection
 						*/
