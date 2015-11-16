@@ -1,4 +1,4 @@
-define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
+define( ["jquery","qrcode","webcodecam","qrcodelib","receiver","sender","presentation"], function($) {
 	var Association = function() {
 		var freq;
 		var interval;
@@ -20,6 +20,11 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 			var bitlyUser="";
 			var bitlyPass="";
 			var serverUrl=window.location.host;
+			//Chromecast Application ID. 
+			//To register an application go to https://cast.google.com/u/0/publish/#/signup
+			var castId="";
+			//Chromecast Application receiver.html path. It have to be publish in an https service.
+			var url="";
 			var args = Array.prototype.slice.call(arguments);
 
 			if(args[0].toLowerCase()==="qr"){
@@ -63,13 +68,13 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 										return dialAssociationCatcher(args);
 									}*/
 								}else if(args[0].toLowerCase()==="presentation"){
-										/*if(args.length>2){
+										if(args.length>2){
 											console.log("Trigger");
 											return presentationAssociationTrigger(args);
 										}else{
 											console.log("Catcher");
 											return presentationAssociationCatcher(args);
-										}*/
+										}
 									}else if(args[0].toLowerCase()==="text"){
 											if(args.length==3){
 												return textAssociationTrigger(args);
@@ -631,12 +636,74 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 				return p1;
 			}
 
+		/***********************************************************************************************
+		*
+		*	mediascape.association.doAssociation('presentation',url)
+		*
+		*	Function that creates a trigger for the Presentation API method that associates devices.
+		*	The url parameter is the url of the multimedia multi-screen application defined for the 
+		*	association.
+		*
+		***********************************************************************************************/
+
 			function presentationAssociationTrigger(args){
 				console.log('presentationAssociationTrigger');
 				var p1= new Promise(
 					function(resolve,reject){
 						var deferred = $.Deferred();
-						resolve(JSON.parse('{"response":"<p>The technology has not been developed yet.</p>"}'));
+						if(navigator.w3cPresentation){
+							var presentationConnection = null;
+							var presentationConnected = false;
+
+							console.log('Using receiver app "' + url + '" (castId: ' + castId + ')');
+							navigator.w3cPresentation.registerCastApplication(url, castId);
+							var presentationRequest = new w3cPresentationRequest(url);
+							presentationRequest.start().then(function (connection) {
+								presentationConnection = connection;
+								presentationConnected = false;
+
+								// Load the requested app on the receiver end when the connection
+								// is fully operational and reset things if the connection is closed for
+								// some reason
+								presentationConnection.onstatechange = function () {
+									if (presentationConnection.state === 'connected') {
+										console.log('Presentation connected');
+										presentationConnected = true;
+										if (presentationConnection && (presentationConnection.state === 'connected')) {
+											presentationConnection.send({
+												cmd: 'open',
+												url: args[1].toString()
+											});
+										}
+									}
+									else {
+										console.log('Presentation disconnected');
+										if (!presentationConnected) {
+											resolve(JSON.parse('{"response":"<p>The presentation connection could not be created.' +
+												' Your browser may have blocked the pop-up window.' +
+												' Please ensure that the page is allowed to open pop-up windows' +
+												' and try again.</p>"}'));
+										}
+										presentationConnected = false;
+										presentationConnection.close();
+									}
+								};
+								presentationConnection.onmessage = function (event) {
+									var params = null;
+									var message = JSON.parse(event.data);
+									if (!message || !message.cmd) {
+										return;
+									}
+									if (message.cmd === 'response') {
+										if(message.ack==='ok'){
+											resolve(JSON.parse('{"response":"<p>Associated</p>"}'));
+										}else{
+											resolve(JSON.parse('{"response":"<p>Error in association process</p>"}'));
+										}
+									}
+								};
+							});
+						};
 					});
 				return p1;
 			}
@@ -1187,12 +1254,57 @@ define( ["jquery","qrcode","webcodecam","qrcodelib"], function($) {
 				return p1;
 			}
 
+		/***********************************************************************************************
+		*
+		*	mediascape.association.doAssociation('presentation',"iframeElementId")
+		*
+		*	Function that creates a catcher for the Presentation API method that associates devices.
+		*	"iframeElementId" parameter is the id of the html iframe where the mediascape app will 
+		*	be inserted.
+		*
+		***********************************************************************************************/
+
 			function presentationAssociationCatcher(args){
 				console.log('presentationAssociationCatcher');
 				var p1= new Promise(
 					function(resolve,reject){
 						var deferred = $.Deferred();
-						resolve(JSON.parse('{"response":"<p>The technology has not been developed yet.</p>"}'));
+						var presentationConnection=null;
+
+						var iframe = document.querySelector(args[1]);
+
+						/**
+						* React to the establishment of a new connection
+						*/
+						navigator.w3cPresentation.receiver.getConnection().then(function (connection) {
+							presentationConnection = connection;
+							connection.onmessage = function (event) {
+								var params = null;
+								var timeout=setTimeout(function(){
+									presentationConnection.send({
+										cmd: 'response',
+										ack: ''
+									});
+								}, 5000);
+								var message = event.data;
+								if (!message || !message.cmd) {
+									return;
+								}
+
+								if (message.cmd === 'open') {
+									if(message.url!=undefined){
+										console.info('open Mediascape Application at "' + message.url + '"');
+										iframe.src = message.url;
+										//window.location.href=message.url;
+										clearTimeout(timeout);
+										presentationConnection.send({
+												cmd: 'response',
+												ack: 'ok'
+											});
+									}
+								}
+							};
+						});
 					});
 				return p1;
 			}
