@@ -1260,7 +1260,8 @@ define( ["jquery","qrcode","webcodecam","qrcodelib","receiver","sender","present
 		*
 		*	Function that creates a catcher for the Presentation API method that associates devices.
 		*	"iframeElementId" parameter is the id of the html iframe where the mediascape app will 
-		*	be inserted.
+		*	be inserted. It the value is an empty string "" instead of insert in an html element
+		* 	the system will redirect the url.
 		*
 		***********************************************************************************************/
 
@@ -1270,8 +1271,9 @@ define( ["jquery","qrcode","webcodecam","qrcodelib","receiver","sender","present
 					function(resolve,reject){
 						var deferred = $.Deferred();
 						var presentationConnection=null;
+						var iframe;
 
-						var iframe = document.querySelector(args[1]);
+						if(args[1]!="")	iframe = document.querySelector(args[1]);
 
 						/**
 						* React to the establishment of a new connection
@@ -1294,8 +1296,8 @@ define( ["jquery","qrcode","webcodecam","qrcodelib","receiver","sender","present
 								if (message.cmd === 'open') {
 									if(message.url!=undefined){
 										console.info('open Mediascape Application at "' + message.url + '"');
-										iframe.src = message.url;
-										//window.location.href=message.url;
+										if(args[1]!="")	iframe.src = message.url;
+										else if(args[1]==="") window.location.href=message.url;
 										clearTimeout(timeout);
 										presentationConnection.send({
 												cmd: 'response',
