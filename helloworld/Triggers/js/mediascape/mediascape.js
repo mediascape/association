@@ -22,6 +22,9 @@
             // is using jQuery 1.8.2 located at
             // js/jquery-1.8.2.js, relative to
             // the HTML page.
+            receiver: 'https://www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver',
+            sender:'https://www.gstatic.com/cv/js/sender/v1/cast_sender',
+            presentation: 'lib/presentation-api-shim',
             jquery: 'lib/jquery-2.1.3.min',
             namedwebsockets: 'lib/namedwebsockets',
             qrcode: 'lib/qrcode.min',
