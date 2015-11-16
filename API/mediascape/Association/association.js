@@ -1273,7 +1273,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib","receiver","sender","present
 						var presentationConnection=null;
 						var iframe;
 
-						if(args[1]!=""&&document.querySelector(args[1])!=undefined) iframe = document.querySelector(args[1]);
+						if(args[1]!="" && document.querySelector(args[1])!=null) iframe = document.querySelector(args[1]);
 						/**
 						* React to the establishment of a new connection
 						*/
@@ -1295,8 +1295,8 @@ define( ["jquery","qrcode","webcodecam","qrcodelib","receiver","sender","present
 								if (message.cmd === 'open') {
 									if(message.url!=undefined){
 										console.info('open Mediascape Application at "' + message.url + '"');
-										if(args[1]!="")	iframe.src = message.url;
-										else if(args[1]==="") window.location.href=message.url;
+										if(args[1]!="" && document.querySelector(args[1])!=null) iframe.src = message.url;
+										else if(args[1]===""||document.querySelector(args[1])===null) window.location.href=message.url;
 										clearTimeout(timeout);
 										presentationConnection.send({
 												cmd: 'response',
