@@ -68,7 +68,7 @@ define( ["jquery","qrcode","webcodecam","qrcodelib","receiver","sender","present
 										return dialAssociationCatcher(args);
 									}*/
 								}else if(args[0].toLowerCase()==="presentation"){
-										if(args.length>2){
+										if(args[1].indexOf("http")!=-1){
 											console.log("Trigger");
 											return presentationAssociationTrigger(args);
 										}else{
